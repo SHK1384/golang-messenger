@@ -1,0 +1,63 @@
+package messenger;
+
+option go_package = "github.com/SHK1384/messenger";
+
+service Messenger{
+    rpc AddUser(AddUserRequest) returns (UserID) {}
+    rpc SendMessage(SendMessageRequest) returns (Empty) {}
+    rpc FetchMessage(MessageID) returns (Message) {}
+    rpc GetUserMessage(GetUserMessageRequest) returns (Chats) {}
+}
+message UserID{
+    required int32 ID = 1;
+}
+message User{
+    required UserID ID = 1;
+    required string username = 2;
+    required string profileFileID = 3;
+}
+message MessageID{
+    required int32 ID = 1;
+}
+message Message{
+    required MessageID ID = 1;
+    required Content content = 2;
+}
+
+message AddUserRequest{
+    required string username = 1;
+    required string profileFileID = 2;
+}
+
+message SendMessageRequest{
+    required UserID userID1 = 1;
+    required UserID userID2 = 2;
+    required Content content = 3;
+}
+
+message GetUserMessageRequest{
+    required UserID userID = 1;
+}
+
+message Content{
+    enum TYPE{
+        FILE = 0;
+        IMAGE = 1;
+        TEXT = 2;
+    }
+    required TYPE type = 1;
+    required string content = 2;
+}
+
+message Chat {
+    required UserID userID = 1;
+    repeated Message messages = 2;
+}
+
+message Chats {
+    repeated Chat chats = 1;
+}
+
+message Empty{
+
+}
